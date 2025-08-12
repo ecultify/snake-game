@@ -27,7 +27,7 @@ function useKeyboardDirection(initial = [1, 0]) {
 }
 
 // === Game logic hook without useFrame ===
-function useSnakeGame({ size = 20, stepTime = 0.2, running, onGameOver }) {
+function useSnakeGame({ size = 25, stepTime = 0.2, running, onGameOver }) {
   const [snake, setSnake] = useState(() => [[0, 0], [-1, 0], [-2, 0]]);
   const [dir, setDir] = useKeyboardDirection([1, 0]);
   const [food, setFood] = useState([3, 0]);
@@ -201,7 +201,7 @@ function Ground({ size }) {
 // === Main Scene ===
 function Scene() {
   const [running, setRunning] = useState(true);
-  const [size, setSize] = useState(15);
+  const [size, setSize] = useState(25);
   const [speed, setSpeed] = useState(0.18);
   const [gameOver, setGameOver] = useState(false);
   const gameState = useSnakeGame({
@@ -213,7 +213,7 @@ function Scene() {
 
   return (
     <div className="w-full h-[120vh] relative">
-             <Canvas shadows camera={{ position: [size * 1.2, size * 1.2, size * 1.2], fov: 50 }}>
+             <Canvas shadows camera={{ position: [size * 1.5, size * 1.5, size * 1.5], fov: 60 }}>
          <GameLoop gameState={gameState} running={running && !gameOver} />
          <ambientLight intensity={0.5} />
          <directionalLight position={[10, 20, 10]} intensity={0.8} />
