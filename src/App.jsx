@@ -201,7 +201,7 @@ function Ground({ size }) {
 // === Main Scene ===
 function Scene() {
   const [running, setRunning] = useState(true);
-  const [size, setSize] = useState(20);
+  const [size, setSize] = useState(15);
   const [speed, setSpeed] = useState(0.18);
   const [gameOver, setGameOver] = useState(false);
   const gameState = useSnakeGame({
@@ -212,32 +212,33 @@ function Scene() {
   });
 
   return (
-    <div className="w-full h-screen relative">
-      <Canvas shadows camera={{ position: [size * 1.2, size * 1.2, size * 1.2], fov: 50 }}>
-        <GameLoop gameState={gameState} running={running && !gameOver} />
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 20, 10]} intensity={0.8} />
-        <Ground size={size} />
-        <Snake points={gameState.snake} />
-        <Food position={gameState.food} />
-        {gameState.obstacles.map((o, i) => <Obstacle key={i} position={o} />)}
-        {gameState.powerUps.map((pu, i) => <PowerUp key={i} position={pu.position} type={pu.type} />)}
-        <OrbitControls />
-      </Canvas>
-      <div className="absolute top-3 left-3 hud">
-        <div>Score: {gameState.score} | Level: {gameState.level} | High: {gameState.highScore}</div>
-        <button className="hud-btn" onClick={() => setRunning(r => !r)}>{running ? "Pause" : "Resume"}</button>
-        <button className="hud-btn" onClick={() => { gameState.reset(); setGameOver(false); setRunning(true); }}>Reset</button>
-      </div>
+    <div className="w-full h-[120vh] relative">
+             <Canvas shadows camera={{ position: [size * 1.2, size * 1.2, size * 1.2], fov: 50 }}>
+         <GameLoop gameState={gameState} running={running && !gameOver} />
+         <ambientLight intensity={0.5} />
+         <directionalLight position={[10, 20, 10]} intensity={0.8} />
+         <Ground size={size} />
+         <Snake points={gameState.snake} />
+         <Food position={gameState.food} />
+         {gameState.obstacles.map((o, i) => <Obstacle key={i} position={o} />)}
+         {gameState.powerUps.map((pu, i) => <PowerUp key={i} position={pu.position} type={pu.type} />)}
+         <OrbitControls />
+       </Canvas>
+       <div className="absolute top-4 left-4 hud" style={{ fontSize: '1.2em', fontWeight: 'bold', backgroundColor: 'rgba(0,0,0,0.7)', color: 'white', padding: '8px', borderRadius: '4px' }}>
+         <div style={{ marginBottom: '8px' }}>Score: {gameState.score} | Level: {gameState.level} | High: {gameState.highScore}</div>
+         <button className="hud-btn" style={{ fontSize: '1em', padding: '8px 16px', marginRight: '8px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }} onClick={() => setRunning(r => !r)}>{running ? "Pause" : "Resume"}</button>
+         <button className="hud-btn" style={{ fontSize: '1em', padding: '8px 16px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }} onClick={() => { gameState.reset(); setGameOver(false); setRunning(true); }}>Reset</button>
+       </div>
+      
       {gameState.scoreboard.length > 0 && (
-        <div className="absolute bottom-20 left-3 hud">
-          <div className="font-bold">Scoreboard:</div>
+        <div className="absolute bottom-20 left-4 hud" style={{ fontSize: '1.1em', backgroundColor: 'rgba(0,0,0,0.7)', color: 'white', padding: '8px', borderRadius: '4px' }}>
+          <div className="font-bold" style={{ fontSize: '1.2em', marginBottom: '4px' }}>Scoreboard:</div>
           {gameState.scoreboard.map((s, i) => (
-            <div key={i}>{s.name || '???'} — {s.score}</div>
+            <div key={i} style={{ marginBottom: '2px' }}>{s.name || '???'} — {s.score}</div>
           ))}
         </div>
       )}
-      {gameOver && <div className="absolute inset-0 flex items-center justify-center">Game Over</div>}
+      {gameOver && <div className="absolute inset-0 flex items-center justify-center" style={{ fontSize: '2.5em', fontWeight: 'bold', color: 'red', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>Game Over</div>}
     </div>
   );
 }
