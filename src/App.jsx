@@ -27,7 +27,7 @@ function useKeyboardDirection(initial = [1, 0]) {
 }
 
 // === Game logic hook without useFrame ===
-function useSnakeGame({ size = 15, stepTime = 0.2, running, onGameOver }) {
+function useSnakeGame({ size = 20, stepTime = 0.2, running, onGameOver }) {
   const [snake, setSnake] = useState(() => [[0, 0], [-1, 0], [-2, 0]]);
   const [dir, setDir] = useKeyboardDirection([1, 0]);
   const [food, setFood] = useState([3, 0]);
@@ -201,7 +201,7 @@ function Ground({ size }) {
 // === Main Scene ===
 function Scene() {
   const [running, setRunning] = useState(true);
-  const [size, setSize] = useState(12);
+  const [size, setSize] = useState(20);
   const [speed, setSpeed] = useState(0.18);
   const [gameOver, setGameOver] = useState(false);
   const gameState = useSnakeGame({
@@ -230,7 +230,7 @@ function Scene() {
         <button className="hud-btn" onClick={() => { gameState.reset(); setGameOver(false); setRunning(true); }}>Reset</button>
       </div>
       {gameState.scoreboard.length > 0 && (
-        <div className="absolute bottom-4 left-3 hud">
+        <div className="absolute bottom-20 left-3 hud">
           <div className="font-bold">Scoreboard:</div>
           {gameState.scoreboard.map((s, i) => (
             <div key={i}>{s.name || '???'} — {s.score}</div>
